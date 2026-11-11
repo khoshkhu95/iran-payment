@@ -1,0 +1,36 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+/**
+ * جدول تنظیمات درگاه‌ها (برای کامپوننت <x-iran-payment-settings />).
+ *
+ * ساختار کلید/مقدار است تا افزودن فیلد جدید به هر درگاه، هیچ تغییری در
+ * ساختار جدول لازم نداشته باشد. مقدارها رمزنگاری‌شده ذخیره می‌شوند.
+ */
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::connection(config('iran-payment.settings.connection'))
+            ->create(config('iran-payment.settings.table', 'iran_payment_settings'), function (Blueprint $table) {
+                $table->id();
+
+                $table->string('gateway', 64)->index();
+                $table->string('key', 64);
+                $table->text('value')->nullable();
+
+                $table->timestamps();
+
+                $table->unique(['gateway', 'key']);
+            });
+    }
+
+    public function down(): void
+    {
+        Schema::connection(config('iran-payment.settings.connection'))
+            ->dropIfExists(config('iran-payment.settings.table', 'iran_payment_settings'));
+    }
+};

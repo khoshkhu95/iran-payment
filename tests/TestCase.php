@@ -30,6 +30,9 @@ abstract class TestCase extends Orchestra
         $app['config']->set('iran-payment.gateways.fake.enabled', true);
         $app['config']->set('iran-payment.gateways.fake.outcome', 'success');
 
+        // تنظیمات درگاه‌ها در حافظه ذخیره شود تا تست به جدول نیاز نداشته باشد
+        $app['config']->set('iran-payment.settings.store', 'array');
+
         // فقط درگاه آزمایشی در لیست نمایش داده شود تا تست به تنظیمات واقعی وابسته نباشد
         $app['config']->set('iran-payment.ui.only', ['fake']);
     }

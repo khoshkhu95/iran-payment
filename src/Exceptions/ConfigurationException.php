@@ -14,4 +14,12 @@ class ConfigurationException extends IranPaymentException
             $gateway
         ));
     }
+
+    public static function settingsTableMissing(string $table): self
+    {
+        return new self(sprintf(
+            'جدول [%s] برای ذخیرهٔ تنظیمات درگاه‌ها وجود ندارد. مایگریشن‌های پکیج را با «php artisan iran-payment:install» منتشر و سپس «php artisan migrate» را اجرا کنید.',
+            $table
+        ));
+    }
 }

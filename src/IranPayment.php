@@ -6,6 +6,7 @@ use Taha20\IranPayment\Contracts\Gateway;
 use Taha20\IranPayment\Contracts\TransactionStore;
 use Taha20\IranPayment\Gateways\FakeGateway;
 use Taha20\IranPayment\Models\Transaction;
+use Taha20\IranPayment\Settings\GatewaySettings;
 use Taha20\IranPayment\Support\Payment;
 use Taha20\IranPayment\Support\PaymentResponse;
 use Taha20\IranPayment\Support\RefundResult;
@@ -25,6 +26,7 @@ class IranPayment
     public function __construct(
         protected PaymentManager $manager,
         protected PaymentProcessor $processor,
+        protected ?GatewaySettings $settings = null,
     ) {}
 
     /*
@@ -41,6 +43,18 @@ class IranPayment
     public function processor(): PaymentProcessor
     {
         return $this->processor;
+    }
+
+    /**
+     * لایهٔ تنظیمات درگاه‌ها (همان چیزی که فرم <x-iran-payment-settings /> استفاده می‌کند).
+     *
+     *   IranPayment::settings()->for('zarinpal');       // مقادیر ذخیره‌شده
+     *   IranPayment::settings()->isConfigured('zibal'); // آیا آمادهٔ استفاده است؟
+     *   IranPayment::settings()->forget('zibal');       // بازگشت به مقادیر config
+     */
+    public function settings(): GatewaySettings
+    {
+        return $this->settings ??= app(GatewaySettings::class);
     }
 
     /**

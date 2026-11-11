@@ -39,7 +39,7 @@ class InstallCommand extends Command
         ]);
 
         $shouldMigrate = $this->option('migrate')
-            || $this->confirm('آیا مایگریشن جدول تراکنش‌ها اجرا شود؟', true);
+            || $this->confirm('آیا مایگریشن‌های جدول تراکنش‌ها و تنظیمات درگاه اجرا شوند؟', true);
 
         if ($shouldMigrate) {
             $this->call('migrate');
@@ -53,8 +53,12 @@ class InstallCommand extends Command
         $this->line('     <fg=gray>ZARINPAL_MERCHANT_ID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</>');
         $this->line('  ۲) درگاه پیش‌فرض را مشخص کنید:');
         $this->line('     <fg=gray>IRAN_PAYMENT_GATEWAY=zarinpal</>');
-        $this->line('  ۳) کامپوننت را در ویو خود قرار دهید:');
+        $this->line('  ۳) کامپوننت پرداخت را در ویو خود قرار دهید:');
         $this->line('     <fg=gray><x-iran-payment :amount="150000" order-id="ORD-1" /></>');
+        $this->line('  ۴) (اختیاری) فرم تنظیمات درگاه‌ها را در پنل مدیریت بگذارید:');
+        $this->line('     <fg=gray><x-iran-payment-settings /></>');
+        $this->line('     ⚠️ روت ذخیرهٔ فرم را با میدل‌ور احراز هویت محافظت کنید:');
+        $this->line('     <fg=gray>config/iran-payment.php → settings.middleware</>');
         $this->newLine();
 
         return self::SUCCESS;

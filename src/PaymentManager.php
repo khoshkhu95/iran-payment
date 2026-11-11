@@ -5,6 +5,7 @@ namespace Taha20\IranPayment;
 use Illuminate\Support\Manager;
 use Taha20\IranPayment\Contracts\Gateway;
 use Taha20\IranPayment\Exceptions\GatewayNotFoundException;
+use Taha20\IranPayment\Settings\GatewaySettings;
 
 /**
  * مدیر درگاه‌ها.
@@ -22,6 +23,14 @@ class PaymentManager extends Manager
 {
     public function getDefaultDriver(): string
     {
+        // اگر در پنل تنظیمات، درگاه پیش‌فرض انتخاب شده باشد، اولویت دارد
+        $stored = $this->settings()->for('_global')['default'] ?? null;
+
+        // اگر آن درگاه بعداً از config حذف شده باشد، به مقدار config برمی‌گردیم
+        if (is_string($stored) && $stored !== '' && $this->hasGateway($stored)) {
+            return $stored;
+        }
+
         return (string) $this->container['config']->get('iran-payment.default', 'zarinpal');
     }
 
@@ -47,9 +56,9 @@ class PaymentManager extends Manager
             return $this->callCustomCreator($driver);
         }
 
-        $config = $this->container['config']->get('iran-payment.gateways.'.$driver);
+        $config = $this->configFor((string) $driver);
 
-        if (! is_array($config)) {
+        if ($config === []) {
             throw GatewayNotFoundException::make((string) $driver);
         }
 
@@ -63,6 +72,30 @@ class PaymentManager extends Manager
         return $this->container->make($class, [
             'config' => array_merge($config, ['name' => $driver]),
         ]);
+    }
+
+    /**
+     * تنظیمات مؤثر یک درگاه: config پروژه + مقادیر ذخیره‌شده از پنل تنظیمات.
+     *
+     * @return array<string, mixed>
+     */
+    public function configFor(string $name): array
+    {
+        $config = $this->container['config']->get('iran-payment.gateways.'.$name);
+
+        if (! is_array($config)) {
+            return [];
+        }
+
+        return $this->settings()->effective($name, $config);
+    }
+
+    /**
+     * لایهٔ تنظیمات (lazy از کانتینر گرفته می‌شود تا سازندهٔ Manager دست‌نخورده بماند).
+     */
+    protected function settings(): GatewaySettings
+    {
+        return $this->container->make(GatewaySettings::class);
     }
 
     /**
@@ -115,7 +148,9 @@ class PaymentManager extends Manager
         $gateways = [];
 
         foreach ((array) $this->container['config']->get('iran-payment.gateways', []) as $name => $config) {
-            if (! ($config['enabled'] ?? false)) {
+            $effective = $this->settings()->effective((string) $name, (array) $config);
+
+            if (! filter_var($effective['enabled'] ?? false, FILTER_VALIDATE_BOOLEAN)) {
                 continue;
             }
 
@@ -146,7 +181,7 @@ class PaymentManager extends Manager
     {
         $default = $this->getDefaultDriver();
 
-        if ($this->container['config']->get('iran-payment.gateways.'.$default.'.enabled', false) === true) {
+        if (filter_var($this->configFor($default)['enabled'] ?? false, FILTER_VALIDATE_BOOLEAN)) {
             return $default;
         }
 
