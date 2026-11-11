@@ -1,0 +1,11 @@
+/vendor
+/.phpunit.cache
+/.phpunit.result.cache
+composer.lock
+.php-cs-fixer.cache
+.idea
+.vscode
+*.log
+
+# پوشهٔ داخلی ابزار توسعه (نباید در مخزن منتشر شود)
+.workbuddy-ai/

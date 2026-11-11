@@ -1,0 +1,78 @@
+{
+    "name": "taha20/iran-payment",
+    "description": "پکیج جامع درگاه‌های پرداخت ایرانی برای لاراول؛ سوئیچ آسان بین درگاه‌ها + کامپوننت آماده <x-iran-payment />",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "payment",
+        "gateway",
+        "iran",
+        "iranian-payment",
+        "zarinpal",
+        "zibal",
+        "idpay",
+        "payir",
+        "nextpay",
+        "payping",
+        "paystar",
+        "aqayepardakht",
+        "mellat",
+        "sadad",
+        "saman",
+        "parsian",
+        "pasargad"
+    ],
+    "authors": [
+        {
+            "name": "Rasoul Khoshkhu",
+            "email": "khoshkhu95@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "ext-json": "*",
+        "illuminate/support": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/console": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/contracts": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/database": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/encryption": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/routing": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/validation": "^10.0|^11.0|^12.0|^13.0",
+        "illuminate/view": "^10.0|^11.0|^12.0|^13.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpunit/phpunit": "^10.5|^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Taha20\\IranPayment\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Taha20\\IranPayment\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Taha20\\IranPayment\\IranPaymentServiceProvider"
+            ],
+            "aliases": {
+                "IranPayment": "Taha20\\IranPayment\\Facades\\IranPayment"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
