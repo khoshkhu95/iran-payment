@@ -3,6 +3,11 @@
     "description": "پکیج جامع درگاه‌های پرداخت ایرانی برای لاراول؛ سوئیچ آسان بین درگاه‌ها + کامپوننت آماده <x-iran-payment />",
     "type": "library",
     "license": "MIT",
+    "homepage": "https://github.com/khoshkhu95/iran-payment",
+    "support": {
+        "issues": "https://github.com/khoshkhu95/iran-payment/issues",
+        "source": "https://github.com/khoshkhu95/iran-payment"
+    },
     "keywords": [
         "laravel",
         "payment",

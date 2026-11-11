@@ -1,5 +1,8 @@
 # iran-payment
 
+[![tests](https://github.com/khoshkhu95/iran-payment/actions/workflows/tests.yml/badge.svg)](https://github.com/khoshkhu95/iran-payment/actions/workflows/tests.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
+
 پکیج جامع درگاه‌های پرداخت ایرانی برای لاراول.
 
 - **۱۳ درگاه واقعی** + یک درگاه آزمایشی، همه با یک اینترفیس یکسان
@@ -34,7 +37,11 @@
 
 ### ۱) افزودن پکیج
 
-اگر پکیج را به‌صورت محلی دارید، در `composer.json` پروژه:
+```bash
+composer require taha20/iran-payment
+```
+
+یا اگر پکیج را به‌صورت محلی دارید، در `composer.json` پروژه:
 
 ```json
 "repositories": [

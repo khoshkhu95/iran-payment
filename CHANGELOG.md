@@ -24,4 +24,4 @@
 - پشتیبانی از بازگشت وجه در درگاه‌های ملت و درگاه آزمایشی.
 - مستندات معماری در `docs/ARCHITECTURE.md`.
 
-[1.0.0]: https://github.com/USERNAME/iran-payment/releases/tag/v1.0.0
+[1.0.0]: https://github.com/khoshkhu95/iran-payment/releases/tag/v1.0.0
