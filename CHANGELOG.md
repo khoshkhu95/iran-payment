@@ -4,6 +4,13 @@
 قالب بر اساس [Keep a Changelog](https://keepachangelog.com/fa/1.1.0/) و
 نسخه‌گذاری بر اساس [Semantic Versioning](https://semver.org/lang/fa/).
 
+## [Unreleased]
+
+### افزوده شد
+
+- پوشش لاراول ۱۳ در ماتریس تست CI (testbench `^11.0`).
+  سازگاری با لاراول ۱۳.۴۲ و PHP 8.3/8.4 به‌صورت واقعی اجرا و تأیید شد.
+
 ## [1.0.0] - 2026-11-11
 
 ### افزوده شد

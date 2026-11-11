@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         php: ['8.2', '8.3', '8.4']
-        laravel: ['10.*', '11.*', '12.*']
+        laravel: ['10.*', '11.*', '12.*', '13.*']
         include:
           - laravel: '10.*'
             testbench: '^8.0'
@@ -32,10 +32,16 @@ jobs:
           - laravel: '12.*'
             testbench: '^10.0'
             allow_advisories: '0'
+          - laravel: '13.*'
+            testbench: '^11.0'
+            allow_advisories: '0'
         exclude:
           # لاراول ۱۰ با PHP 8.4 رسماً پشتیبانی نمی‌شود
           - php: '8.4'
             laravel: '10.*'
+          # لاراول ۱۳ حداقل PHP 8.3 می‌خواهد
+          - php: '8.2'
+            laravel: '13.*'
 
     name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
 
