@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -18,10 +22,16 @@ jobs:
         include:
           - laravel: '10.*'
             testbench: '^8.0'
+            # لاراول ۱۰ و ۱۱ دیگر پچ امنیتی نمی‌گیرند و Composer 2.9 به‌طور
+            # پیش‌فرض نصبشان را بلاک می‌کند. چون این پایه‌ها فقط برای بررسی
+            # «سازگاری» تست می‌شوند، بلاک را فقط برای همین‌ها خاموش می‌کنیم.
+            allow_advisories: '1'
           - laravel: '11.*'
             testbench: '^9.0'
+            allow_advisories: '1'
           - laravel: '12.*'
             testbench: '^10.0'
+            allow_advisories: '0'
         exclude:
           # لاراول ۱۰ با PHP 8.4 رسماً پشتیبانی نمی‌شود
           - php: '8.4'
@@ -42,8 +52,13 @@ jobs:
 
       - name: Install dependencies
         run: |
+          FLAGS=""
+          if [ "${{ matrix.allow_advisories }}" = "1" ]; then
+            FLAGS="--no-security-blocking"
+          fi
+
           composer require "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
-          composer update --prefer-dist --no-interaction --no-progress
+          composer update --prefer-dist --no-interaction --no-progress $FLAGS
 
       - name: Run tests
         run: vendor/bin/phpunit --colors=never
